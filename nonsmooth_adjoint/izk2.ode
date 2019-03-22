@@ -1,0 +1,57 @@
+# regular spiking parameters, lower threshold of v=20
+
+v1'=0.04*v1^2 + 5*v1 + 140 - u1 + I
+u1'=a*(b*v1-u1)
+
+v2'=0.04*v2^2 + 5*v2 + 140 - u2 + I
+u2'=a*(b*v2-u2)
+
+p a=0.02,b=0.2,c=-65,d=8
+#p a=0.02,b=0.2,c=-65,d=1.1
+p eps=0.0,I=10
+
+#table vdet1 V1.tab
+#table ndet1 U1.tab
+
+p svh=30,snh=1
+
+#dist1_[0..448]=(v1-vdet1([j]))^2/svh+(u1-ndet1([j]))^2/snh
+#dist2_[0..448]=(v2-vdet1([j]))^2/svh+(u2-ndet1([j]))^2/snh
+
+#special mn1=findext(-1,449,1,dist1_0)
+#special mn2=findext(-1,449,1,dist2_0)
+
+#aux psi=mod(mn2(3)/449-mn1(3)/449+.5,1)-.5
+#aux psi=mod(mn2(3)/45-mn1(3)/45+.5,1)-.5
+
+aux psi=mod(s2/44.8-s1/44.8+.5,1)-.5
+
+#aux theta1=mod(mn1(3)/45,1)
+#aux theta2=mod(mn2(3)/45,1)
+
+#aux psir=mn2(3)-mn1(3)
+#aux theta1r=mn1(3)
+#aux theta2r=mn2(3)
+
+s1'=1
+s2'=1
+
+# quarter phase
+init v1=-72.5211
+init u1=-2.52998
+
+# near antiphase
+#init v1=-65.0028
+#init u1=0.500836
+
+# zero phase
+init v2=-68.9517
+init u2=-4.91713
+
+
+global 1 v1-30 {v1=c;u1=u1+d;v2=v2+eps;s1=0}
+global 1 v2-30 {v2=c;u2=u2+d;v1=v1+eps;s2=0}
+
+#global 1 v1-20 {v1=c;u1=u1/d;v2=v2+eps}
+#global 1 v2-20 {v2=c;u2=u2/d;v1=v1+eps}
+
